@@ -1,0 +1,62 @@
+﻿<Application x:Class="Locomotion.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="GUI/SplashScreen.xaml" Startup="Application_Startup" Exit="Application_Exit">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="IsEnabled" Value="True" />
+                <Setter Property="FontSize" Value="32" />
+                <Setter Property="Height" Value="49" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Width" Value="180" />
+                <Setter Property="Margin" Value="2,4"/>
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+                <Setter Property="FontFamily" Value="pack://application:,,,/Media/Fonts/#Keep Calm Medium" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/button_RED.png"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <ControlTemplate.Resources>
+                                
+                            </ControlTemplate.Resources>
+                            <Border Name="border" BorderThickness="0" Padding="4,2" BorderBrush="DarkGray" CornerRadius="3" Background="{TemplateBinding Background}">
+                                <Grid >
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/button_YELLOW.png" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/button_GRAY.png" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+
+</Application>

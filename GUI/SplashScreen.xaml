@@ -1,0 +1,32 @@
+﻿<Window x:Class="Locomotion.IntroScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SplashScreen" Height="900" Width="1440" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="Black" Name="SplashScreen" KeyDown="SplashScreen_KeyDown">
+    <Grid Name="contentGrid" MouseDown="contentGrid_MouseDown">
+
+        <Canvas Height="271" HorizontalAlignment="Center" Margin="0,0,0,50" Name="SplashCanvas" VerticalAlignment="Center" Width="900" Opacity="0">
+            <Image Height="221" HorizontalAlignment="Center" Margin="0,0,0,0" Name="LogoImage" Stretch="Fill" VerticalAlignment="Center" Width="900" Source="/Locomotion;component/Media/Graphics/infinitelogo.png" />
+            <Label Canvas.Left="360" Canvas.Top="170" Content="Presents..." Height="50" Name="PresentsLabel" Foreground="#FFA7A7A7" FontSize="35" />
+        </Canvas>
+
+        <Label Content="(Press any key to skip...)" Height="38" Name="SkipLabel" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFA7A7A7" FontSize="20"/>
+    </Grid>
+
+    <Window.Resources>
+
+        <Storyboard x:Key="AnimateLogo" Completed="Storyboard_Completed">
+            <DoubleAnimation Storyboard.TargetName="SplashCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" />
+            <DoubleAnimation Storyboard.TargetName="SplashCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:4.5" />
+            <DoubleAnimation Storyboard.TargetName="SplashCanvas" Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:1" BeginTime="0:0:5.5"/>
+        </Storyboard>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource AnimateLogo}"/>
+        </EventTrigger>
+
+    </Window.Triggers>
+</Window>

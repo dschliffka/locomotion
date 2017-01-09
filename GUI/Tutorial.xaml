@@ -1,0 +1,481 @@
+﻿<Window x:Class="Locomotion.Tutorial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       Title="MainMenu" Height="900" Width="1440" WindowStyle="None" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen" WindowState="Maximized" >
+
+    <Grid Name="tutorialContentGrid" Opacity="1">
+
+        <!--Play theme song FOREVER!-->
+        <MediaElement Name="MapThemeSong" LoadedBehavior="Manual">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="MediaElement.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <MediaTimeline Source="Media/Sounds/MapTheme.wav"  Storyboard.TargetName="MapThemeSong" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+
+        <Canvas Height="1350" Width="2160" Name="MapCanvas" >
+            <Image Height="1350" HorizontalAlignment="Left" Name="map" Stretch="Fill" VerticalAlignment="Top" Width="2160" Visibility="Visible" Source="/Locomotion;component/Media/Graphics/campaignMAPFULL.png" />
+        </Canvas>
+        <Canvas Name="IntroStuff">
+            <Image Height="343" Name="miniTrain" Margin="-2300,600,0,0"  Stretch="Fill" Width="2300" Source="/Locomotion;component/Media/Graphics/MainMenuTrain.png"  />
+            <Image Height="50" HorizontalAlignment="Left" Margin="0,900,0,0" Name="flatTrack" Stretch="Fill" VerticalAlignment="Top" Width="1440" Source="/Locomotion;component/Media/Graphics/FlatTrack.png" />
+        </Canvas>
+        <Canvas Name="gameBoard">
+            <Image Name="BoardBackground" Height="900" Width="1440" Visibility="Hidden" Source="/Locomotion;component/Media/Graphics/CompleteBoard.png" />
+            <Image Name="WaterTexture"  Margin="-50,-50,0,0" Height="1000" Visibility="Hidden" Source="/Locomotion;component/Media/Graphics/subtleWaterTexture.png"  Width="1540"/>
+            <Image Name="gameBoard_Image" Height="900" Width="1440" Margin="0,0,0,0" Visibility="Hidden" Source="/Locomotion;component/Media/Graphics/1stLevelBoard.png" />
+            <Image Height="194" Name="SamplePeg" Stretch="Fill" Width="130" Margin="716,350,0,0" Visibility="Hidden" Source="/Locomotion;component/Media/Graphics/Sample_Peg.png" />
+            <Image Height="150" Name="SampleDisk" Stretch="Fill" Width="150" Margin="725,350,0,0" Visibility="Hidden" Source="/Locomotion;component/Media/Graphics/CITY_PIECE.png" />
+        </Canvas>
+        <!--<Canvas Name="MockMainMenu_Canvas" Height="900" Width="1440" Margin="0,0,0,0" Visibility="Hidden" Panel.ZIndex="200">
+            <Canvas.Background>
+                <SolidColorBrush Color="Black" />
+            </Canvas.Background>
+            <Image Name="mockMainMenu_Image" Width="1440" Height="900" Margin="0,0,0,0" Source="/Locomotion;component/Media/Graphics/mainmenufreeze.png" />
+            <Image Name="mockMenu_Image" Width="271" Height="371" Margin="585,500,0,0" Source="/Locomotion;component/Media/Graphics/mockMenu.png" Opacity="0" />
+            <Image Name="mockProfile_Image" Width="331" Height="69" Margin="0,0,0,0" Source="/Locomotion;component/Media/Graphics/mockProfile.png" Opacity="0" />
+            <Image Name="mockTicket_Image" Width="894" Height="461" Margin="270,70,0,0" Source="/Locomotion;component/Media/Graphics/mockTicket.png" Opacity="0" />
+        </Canvas>-->
+        <Canvas>
+            <Image Margin="1340,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="60" Name="ExitButton" Stretch="Fill" Width="60" Source="/Locomotion;component/Media/Graphics/menuButton.png" MouseDown="ExitButton_MouseDown" MouseEnter="ExitButton_MouseEnter" MouseLeave="ExitButton_MouseLeave"  />
+            <Image Margin="1270,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="60" Name="MusicButton" Stretch="Fill" Width="60" Source="/Locomotion;component/Media/Graphics/music.png" MouseDown="MusicButton_MouseDown" MouseEnter="MusicButton_MouseEnter" MouseLeave="MusicButton_MouseLeave" />
+        </Canvas>
+
+
+
+
+
+        <Canvas Name="GameBoard" Height="700" Width="700" HorizontalAlignment="Center" Margin="0,10,0,130" VerticalAlignment="Center" Grid.Row="1" MouseDown="GameBoard_MouseDown">
+            <Image Uid="anchor" Name="anchor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="350,28,0,0" />
+            <Grid Name="DiskBoard" ShowGridLines="False" VerticalAlignment="Top" Margin="348,22,0,0" Background="#00000000" Height="725" Width="750">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <!--<SkewTransform AngleX="-20" CenterY="300" />-->
+                        <RotateTransform Angle="45" />
+                        <ScaleTransform ScaleY="0.65" ScaleX="1.1"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.Resources>
+                    <Style x:Key="rectDiskStyle" TargetType="{x:Type Rectangle}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="DataContext" Value="Disk" />
+                        <!--
+                        <EventSetter Event="Rectangle.MouseDown" Handler="Grid_MouseDown" />
+                        <EventSetter Event="Rectangle.MouseEnter" Handler="Grid_MouseEnter" />
+                        <EventSetter Event="Rectangle.MouseLeave" Handler="Grid_MouseLeave" />
+                        -->
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="122" />
+                    <RowDefinition Height="122" />
+                    <RowDefinition Height="122" />
+                    <RowDefinition Height="124" />
+                    <RowDefinition Height="121" />
+                    <RowDefinition Height="138*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="124" />
+                    <ColumnDefinition Width="122" />
+                    <ColumnDefinition Width="124" />
+                    <ColumnDefinition Width="122" />
+                    <ColumnDefinition Width="122" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="16*" />
+                </Grid.ColumnDefinitions>
+                <!--Row 0-->
+                <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="1" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="2" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="3" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="4" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="5" Style="{StaticResource rectDiskStyle}" />
+                <!--Row 1-->
+                <Rectangle Grid.Row="1" Grid.Column="0" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="1" Grid.Column="1" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="1" Grid.Column="2" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="1" Grid.Column="3" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="1" Grid.Column="4" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="1" Grid.Column="5" Style="{StaticResource rectDiskStyle}" />
+                <!--Row 2-->
+                <Rectangle Grid.Row="2" Grid.Column="0" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="1" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="2" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="3" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="4" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="5" Style="{StaticResource rectDiskStyle}" />
+                <!--Row 3-->
+                <Rectangle Grid.Row="3" Grid.Column="0" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="3" Grid.Column="1" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="3" Grid.Column="2" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="3" Grid.Column="3" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="3" Grid.Column="4" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="3" Grid.Column="5" Style="{StaticResource rectDiskStyle}" />
+                <!--Row 4-->
+                <Rectangle Grid.Row="4" Grid.Column="0" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="1" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="2" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="3" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="4" Style="{StaticResource rectDiskStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="5" Style="{StaticResource rectDiskStyle}" />
+                <!--Row 5-->
+                <Rectangle Grid.Row="5" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+                <Rectangle Grid.Row="5" Grid.Column="1" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+                <Rectangle Grid.Row="5" Grid.Column="2" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+                <Rectangle Grid.Row="5" Grid.Column="3" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+                <Rectangle Grid.Row="5" Grid.Column="4" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+                <Rectangle Grid.Row="5" Grid.Column="5" Style="{StaticResource rectDiskStyle}" Margin="0,0,0,-6" />
+            </Grid>
+            
+            
+
+            <Grid Name="PegBoard" ShowGridLines="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="350,-8,0,0" MouseDown="Board_MouseDown" Height="793" Width="793">
+
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <!--<SkewTransform AngleX="-20" CenterY="300" />-->
+                        <RotateTransform Angle="45" />
+                        <ScaleTransform ScaleY="0.65" ScaleX="1.1"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Grid.Resources>
+                    <Style x:Key="rectPegStyle" TargetType="{x:Type Rectangle}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="DataContext" Value="Peg" />
+                        <Setter Property="Fill" >
+                            <Setter.Value>
+                                <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/blackspot.png" />
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Visibility" Value="Hidden" />
+                        <EventSetter Event="Rectangle.MouseDown" Handler="pegBoard_MouseDown" />
+                        <EventSetter Event="Rectangle.MouseEnter" Handler="Grid_MouseEnter" />
+                        <EventSetter Event="Rectangle.MouseLeave" Handler="Grid_MouseLeave" />
+                    </Style>
+
+
+
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <!--Row 0-->
+                <Rectangle Grid.Row="0" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="0" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 1-->
+                <Rectangle Grid.Row="2" Grid.Column="0"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="2" Grid.Column="12"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 2-->
+                <Rectangle Grid.Row="4" Grid.Column="0"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="4" Grid.Column="12"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 3-->
+                <Rectangle Grid.Row="6" Grid.Column="0"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="6" Grid.Column="12"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 4-->
+                <Rectangle Grid.Row="8" Grid.Column="0"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="8" Grid.Column="12"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 5-->
+                <Rectangle Grid.Row="10" Grid.Column="0"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="10" Grid.Column="12"  Style="{StaticResource rectPegStyle}" />
+                <!--Row 6-->
+                <Rectangle Grid.Row="12" Grid.Column="2"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="12" Grid.Column="4"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="12" Grid.Column="6"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="12" Grid.Column="8"  Style="{StaticResource rectPegStyle}" />
+                <Rectangle Grid.Row="12" Grid.Column="10"  Style="{StaticResource rectPegStyle}" />
+            </Grid>
+
+        </Canvas>
+        <Canvas Name="Instructions" Height="900" Width="1440" Margin="0,0,0,0" >
+            <Image Name="Instructor" Height="500" Width="500" Margin="-90,410,0,0" Source="/Locomotion;component/Media/Graphics/Character1Full.png" />
+            <Image Name="bigBubble" HorizontalAlignment="Left" Height="270" Width="450" Margin="-10,270,0,0" Stretch="Fill" Source="/Locomotion;component/Media/Graphics/dialogBox_reversed.png" Panel.ZIndex="100" Canvas.Left="240" Canvas.Top="355" />
+            <TextBlock Height="220" Panel.ZIndex="100" HorizontalAlignment="Left" Margin="320,645,0,0" Name="bigInstructions" Text="" VerticalAlignment="Top" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="22" Width="342" />
+            <Image Name="Help" Opacity="0" Panel.ZIndex="100" Height="35" Width="35" Margin="495, 828,0,0" Source="/Locomotion;component/Media/Graphics/help.png" MouseEnter="Help_MouseEnter" />
+            <Button Margin="530,825,0,0" Panel.ZIndex="100" Content="Next" Height="43" Name="NextInstruction_Button" Width="122" Style="{DynamicResource buttonStyle}" Click="NextInstruction_Button_Click" />
+            <!--<Image Height="64" IsEnabled="False" HorizontalAlignment="Left" Margin="599,810,0,0" Name="NextInstruction_Button" Stretch="Fill" VerticalAlignment="Top" Width="64" Source="/Locomotion;component/Media/Graphics/arrow.png" MouseDown="NextInstruction_MouseDown" MouseEnter="NextInstruction_Button_MouseEnter" MouseLeave="NextInstruction_Button_MouseLeave" />
+            <Button Margin="350,830,0,0" Content="Yes" Height="36" Name="yes" Width="75" Opacity="0" Style="{StaticResource buttonStyle}" IsEnabled="False" Click="yes_Click" />
+            <Button Margin="450,830,0,0" Content="No" Height="36" Name="no" Width="75" Opacity="0" Style="{StaticResource buttonStyle}" IsEnabled="False" Click="no_Click" />-->
+        </Canvas>
+        <Grid Name="PauseMenuGrid" Visibility="Hidden" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D2000000">
+            <Border Name="mainMenuButtons" IsEnabled="True" Opacity="1" Visibility="Visible" BorderBrush="White" Height="190" Width="203" BorderThickness="3" CornerRadius="5" Background="#AAFFFFFF">
+                <Canvas  Height="190" Width="203">
+                    <Button Content="Resume" Margin="12,0,0,-70" Name="ResumeButton" Height="49" Width="180" FontSize="24" Foreground="White" Click="ResumeButton_Click" Style="{DynamicResource buttonStyle}"/>
+                    <!--<Button Content="Profile" Margin="12,0,0,-185" Name="ProfileButton" Style="{StaticResource buttonStyle}" Click="ProfileButton_Click" />-->
+                    <Button Content="Restart" Margin="12,0,0,-185" Name="RestartButton" Height="49" Width="180" FontSize="24" Foreground="White" Style="{DynamicResource buttonStyle}" Click="RestartButton_Click" />
+                    <Button Content="Back to Menu" Margin="12,0,0,-300" Name="BTMButton" Height="49" Width="180" FontSize="23" Foreground="White" Click="BTMButton_Click" Style="{DynamicResource buttonStyle}" />
+                </Canvas>
+                <Border.RenderTransform>
+                    <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+                </Border.RenderTransform>
+            </Border>
+        </Grid>
+        <Grid Name="HelpGrid" Visibility="Hidden" Opacity="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D2000000" MouseDown="HelpGrid_MouseDown">
+            <Image Height="250" Visibility="Visible" Margin="0,0,15,15" Name="chatBoard_Image1" Stretch="Fill" Width="430" Source="/Locomotion;component/Media/Graphics/tutorialchatbox.png" />
+            <TextBox Name="helpBox" Height="217" Width="400"  Margin="0,0,30,25" IsReadOnly="True" TextWrapping="Wrap" IsEnabled="True"  Visibility="Visible" VerticalScrollBarVisibility="Auto" Foreground="White" BorderThickness="0" FontFamily="../Media/Fonts/#Keep Calm Medium" Background="#000000FF" FontSize="14" />
+        </Grid>
+        <Canvas>
+            <Image Visibility="Hidden" Margin="1200,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="60" Name="HelpButton" Stretch="Fill" Width="60" Source="/Locomotion;component/Media/Graphics/helpButton.png" MouseDown="HelpButton_MouseDown" MouseEnter="HelpButton_MouseEnter" MouseLeave="HelpButton_MouseLeave" />
+        </Canvas>
+        
+        <Image Height="250" HorizontalAlignment="Right" Visibility="Hidden" Margin="0,0,15,15" Name="chatBoard_Image" Stretch="Fill" VerticalAlignment="Bottom" Width="430" Source="/Locomotion;component/Media/Graphics/tutorialchatbox.png" />
+        <TextBox Name="chatBox" Height="217" Width="400" HorizontalAlignment="Right" Margin="0,0,30,25" VerticalAlignment="Bottom" IsReadOnly="True" TextWrapping="Wrap" IsEnabled="True"  Visibility="Visible" VerticalScrollBarVisibility="Auto" Foreground="White" BorderThickness="0" FontFamily="../Media/Fonts/#Keep Calm Medium" Background="#000000FF" FontSize="14" TextChanged="chatBox_TextChanged" />
+        <Grid.Triggers>
+            <EventTrigger SourceName="ResumeButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="ResumeStoryboard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:01.5" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <!--<DoubleAnimation Storyboard.TargetName="GamePlayTheme" Storyboard.TargetProperty="Volume" From=".25" To=".5" Duration="0:0:1.5" /> -->
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="RestartButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="RestartStoryboard" Completed="RestartStoryboard_Completed">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="tutorialContentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <!-- <DoubleAnimation Storyboard.TargetName="GamePlayTheme" Storyboard.TargetProperty="Volume" From=".25" To=".0" Duration="0:0:1.5" /> -->
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <!--<EventTrigger SourceName="HelpButton" RoutedEvent="Image.MouseDown">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="HelpStoryboard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HelpGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="HelpGrid" RoutedEvent="Grid.MouseDown">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="HelpExitStoryboard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HelpGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>-->
+
+            <EventTrigger SourceName="BTMButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="BTMStoryboard" Completed="BTMStoryboard_Completed">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="tutorialContentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <!--<DoubleAnimation Storyboard.TargetName="GamePlayTheme" Storyboard.TargetProperty="Volume" From=".25" To=".0" Duration="0:0:1.5" /> -->
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Grid.Triggers>
+
+
+        <!--<Grid.Resources>
+            <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="IsEnabled" Value="True" />
+                <Setter Property="FontSize" Value="32" />
+                <Setter Property="Height" Value="49" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Width" Value="180" />
+                <Setter Property="Margin" Value="2,4"/>
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+                <Setter Property="FontFamily" Value="pack://application:,,,/Media/Fonts/#Keep Calm Medium" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/button_RED.png"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>-->
+    </Grid>
+
+    <Window.Resources>
+        <Storyboard x:Key="BackToMainMenu" Completed="Storyboard_Completed">
+            <DoubleAnimation Storyboard.TargetName="tutorialContentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+        </Storyboard>
+        <Storyboard x:Key="PauseStoryboard">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="PauseMenuGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" />
+            <!--<DoubleAnimation Storyboard.TargetName="GamePlayTheme" Storyboard.TargetProperty="Volume" From=".5" To=".25" Duration="0:0:1.5" /> -->
+        </Storyboard>
+        <Storyboard x:Key="FadeButtonsIn">
+            <DoubleAnimation Storyboard.TargetName="yes" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:0.5" />
+            <DoubleAnimation Storyboard.TargetName="no" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="FadeButtonsOut">
+            <DoubleAnimation Storyboard.TargetName="yes" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:0.5" />
+            <DoubleAnimation Storyboard.TargetName="no" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="ViewMenu">
+            <DoubleAnimation Storyboard.TargetName="mockMainMenu_Image" Storyboard.TargetProperty="Opacity" From="1" To=".5" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockMenu_Image" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockProfile_Image" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:1" />
+        </Storyboard>
+
+        <Storyboard x:Key="TicketIn">
+            <DoubleAnimation Storyboard.TargetName="mockTicket_Image" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockMenu_Image" Storyboard.TargetProperty="Opacity" From="1" To=".5" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockProfile_Image" Storyboard.TargetProperty="Opacity" From="1" To=".5" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockMainMenu_Image" Storyboard.TargetProperty="Opacity" From=".5" To=".2" BeginTime="0:0:0" Duration="0:0:1" />
+        </Storyboard>
+
+        <Storyboard x:Key="TicketOut">
+            <DoubleAnimation Storyboard.TargetName="mockTicket_Image" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockMenu_Image" Storyboard.TargetProperty="Opacity" From=".5" To="1" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockProfile_Image" Storyboard.TargetProperty="Opacity" From=".5" To="1" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockMainMenu_Image" Storyboard.TargetProperty="Opacity" From=".2" To=".5" BeginTime="0:0:0" Duration="0:0:1" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeStuffOutAtEnd">
+            <DoubleAnimation Storyboard.TargetName="mockMenu_Image" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="mockProfile_Image" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:1" />
+        </Storyboard>
+
+        <Storyboard x:Key="HelpIn">
+            <DoubleAnimation Storyboard.TargetName="Help" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:6" />
+        </Storyboard>
+        
+        <Storyboard x:Key="HelpOut">
+            <DoubleAnimation Storyboard.TargetName="Help" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0" Duration="0:0:2" />
+        </Storyboard>
+
+        <Storyboard x:Key="DropDisk">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:1"  />
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" BeginTime="0:0:0" Duration="0:0:2">
+                <DoubleAnimation.EasingFunction>
+                    <BounceEase Bounces="3" Bounciness="3" EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="AnimateWaterStoryboard" RepeatBehavior="Forever" AutoReverse="True" AccelerationRatio="0.2" DecelerationRatio="0.2">
+            <ThicknessAnimation x:Name="WaterMarginAnimation" Storyboard.TargetName="WaterTexture" Storyboard.TargetProperty="Margin" From="-50,-50,0,0" To="-0,-20,0,0" Duration="0:0:10" />
+        </Storyboard>
+        
+        <Storyboard x:Key="Transition">
+            <DoubleAnimation Storyboard.TargetName="MainMenu" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="fadeVolumeDown" >
+            <DoubleAnimation Storyboard.TargetName="MapThemeSong" Storyboard.TargetProperty="Volume" From="0.5" To="0.2" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="fadeVolumeUp" >
+            <DoubleAnimation Storyboard.TargetName="MapThemeSong" Storyboard.TargetProperty="Volume" From="0.2" To="0.5" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="fadeVolumeOff" >
+            <DoubleAnimation Storyboard.TargetName="MapThemeSong" Storyboard.TargetProperty="Volume" From="0.2" To="0.0" Duration="0:0:1.5" />
+        </Storyboard>
+
+    </Window.Resources>
+    
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <!--<BeginStoryboard Storyboard="{StaticResource Transition}"/>-->
+        </EventTrigger>
+    </Window.Triggers>
+    <Window.Background>
+        <ImageBrush Stretch="Fill" TileMode="None" />
+    </Window.Background>
+</Window>

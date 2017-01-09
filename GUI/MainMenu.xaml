@@ -1,0 +1,753 @@
+﻿<Window x:Class="Locomotion.MainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Engine="clr-namespace:PlayGround.Engine.Controls;assembly=SandBox"
+        xmlns:Emitter="clr-namespace:PlayGround.Engine.Emitters;assembly=SandBox"
+        Name="myMainMenu" Height="900" Width="1440" WindowStyle="None" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="myMainMenu_Closing" Background="Black" BorderBrush="#FF8E0000">
+        <Grid Name="contentGrid" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/staticBackground.png" />
+        </Grid.Background>
+        <Grid.Resources>
+
+            <Style x:Key="canvasStyle" TargetType="{x:Type Canvas}">
+                <Setter Property="Height" Value="320" />
+                <Setter Property="Width" Value="200" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+               <!-- <Setter Property="Background" Value="#AAFFFFFF" /> -->
+                
+            </Style>
+
+        </Grid.Resources>
+
+        
+
+
+        <!--Play theme song FOREVER!-->
+        <MediaElement Name="MainMenuTheme" >
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="MediaElement.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <MediaTimeline Source="Media/Sounds/MainMenuTheme.wav"  Storyboard.TargetName="MainMenuTheme" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+        
+        
+        <Canvas Height="900" HorizontalAlignment="Center" Name="mmtCanvas" VerticalAlignment="Center" Width="1440">
+            <!--<Image Height="500" HorizontalAlignment="Center" Margin="-3100,230,0,0" Name="MainMenuTrain" VerticalAlignment="Center" Width="4000" Source="/Locomotion;component/Media/Graphics/MainMenuTrain.png" />
+            <Image Height="450" HorizontalAlignment="Center" Margin="566,390,0,0" Name="boardImage" Stretch="Fill" VerticalAlignment="Center" Width="300" Source="/Locomotion;component/Media/Graphics/Board.png" />-->
+
+            <Image Name="landscape"  Height="900" Width="5600" Margin="1440,0,0,0" Source="/Locomotion;component/Media/Graphics/Landscape.png" />
+            <Image Name="midground" Height="256" Width="11201" Margin="1440,530,0,0" Source="/Locomotion;component/Media/Graphics/backLayer.png" />
+            <Engine:ParticleSystem Width="1" Height="1" Background="Transparent" 
+                           x:Name="SmokeParticleSystem" Grid.Column="0" Margin="1350,700,0,0">
+                <Engine:ParticleSystem.Emitters>
+                    <Emitter:LineEmitter  X1="5" Y1="0" X2="35" Y2="0" MaxParticles="70" 
+                             MinHorizontalVelocity="-10.0" MaxHorizontalVelocity="10.0"
+                             MinVerticalVelocity="-14.0" MaxVerticalVelocity="5.0"
+                             StartOpacity="0.4" EndOpacity="0.0" 
+                             MinLifeSpan="3" MaxLifeSpan="6" MaxParticleHeight="25" MaxParticleWidth="25" MinParticleHeight="18" MinParticleWidth="18">
+                        <Emitter:LineEmitter.ColorKeyFrames>
+                            <ColorKeyFrameCollection>
+                                <LinearColorKeyFrame Value="AntiqueWhite" KeyTime="0%" />
+                                <LinearColorKeyFrame Value="LightGray" KeyTime="30%" />
+                                <LinearColorKeyFrame Value="Gray" KeyTime="60%" />
+                            </ColorKeyFrameCollection>
+                        </Emitter:LineEmitter.ColorKeyFrames>
+                    </Emitter:LineEmitter>
+                </Engine:ParticleSystem.Emitters>
+                <Engine:ParticleSystem.Gravity>
+                    <Vector X="-50" Y="-5" />
+                </Engine:ParticleSystem.Gravity>
+                <Engine:ParticleSystem.Drag>
+                    <Vector X="5" Y="0.5" />
+                </Engine:ParticleSystem.Drag>
+            </Engine:ParticleSystem>
+            
+            <Image Name="MainMenuTrain" Height="270" Width="1450" Margin="-15,620,0,0" Source="/Locomotion;component/Media/Graphics/MainMenuTrain.png" />
+            <Image Name="FrontLayer" Height="384" Width="18240" Margin="0,532,0,0" Source="/Locomotion;component/Media/Graphics/frontLayer.png" Stretch="Fill"/>
+            
+            <Canvas.Resources>
+                
+            </Canvas.Resources>
+        </Canvas>
+
+        <Border Name="mainMenuButtons" IsEnabled="True" Opacity="0" Visibility="Hidden" BorderBrush="White" Height="245" Width="203" BorderThickness="3" CornerRadius="5" Background="#AAFFFFFF">
+            <Canvas Style="{StaticResource canvasStyle}" Height="245" Width="203" MouseEnter="mainMenuButtons_MouseEnter">
+                <Button Content="New Game" Margin="12,0,0,-70" Name="NewGameButton" Click="NewGameButton_Click" Style="{DynamicResource buttonStyle}" Padding="0" BorderThickness="0" ClipToBounds="True" />
+                <Button Content="Sign In" Margin="12,0,0,-185" Name="ProfileButton" Style="{DynamicResource buttonStyle}" Click="ProfileButton_Click" />
+                <Button Content="Credits" Margin="12,0,0,-300" Name="CreditsButton" Style="{DynamicResource buttonStyle}" Click="CreditsButton_Click" />
+                <Button Content="Exit" Margin="12,0,0,-415" Name="ExitButton" Click="ExitButton_Click" Style="{DynamicResource buttonStyle}" />       
+            </Canvas>
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+            </Border.RenderTransform>
+        </Border>
+
+        <Border Name="multiplayerOptionButtons" IsEnabled="False" Opacity="0" Visibility="Hidden" BorderBrush="White" Height="190" Width="203" BorderThickness="3" CornerRadius="5" Background="#AAFFFFFF">
+            <Canvas Style="{StaticResource canvasStyle}" Height="190" Width="203">
+                <Button Content="Local" Margin="12,0,0,-70" Name="LocalButton" Style="{DynamicResource buttonStyle}" Click="LocalButton_Click" MouseEnter="LocalButton_MouseEnter" />
+                <Button Content="Online" Margin="12,0,0,-185" Name="NetworkButton" Style="{DynamicResource buttonStyle}" Click="NetworkButton_Click" Padding="0" MouseEnter="NetworkButton_MouseEnter" />
+                <Button Content="Back" Margin="12,0,0,-300" Name="multiplayerBackButton" Style="{DynamicResource buttonStyle}" Click="multiplayerBackButton_Click" />
+            </Canvas>
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+            </Border.RenderTransform>
+        </Border>
+
+        <Border Name="newGameButtons" IsEnabled="False" Opacity="0" Visibility="Hidden" BorderBrush="White" Height="290" Width="203" BorderThickness="3" CornerRadius="5" Background="#AAFFFFFF">
+            <Canvas Style="{StaticResource canvasStyle}" Height="290" Width="203">
+                <Button Content="Tutorial" Margin="12,0,0,-70" Name="TutorialButton" Style="{DynamicResource buttonStyle}" Click="TutorialButton_Click" MouseEnter="TutorialButton_MouseEnter" />
+                <Button Content="Story Mode" Margin="12,0,0,-180" Name="CampaignButton" Style="{DynamicResource buttonStyle}" Click="CampaignButton_Click" MouseEnter="CampaignButton_MouseEnter" />
+                <Button Content="Quick Match" Margin="12,0,0,-290" Name="QuickMatchButton" Style="{DynamicResource buttonStyle}" Click="QuickMatchButton_Click" MouseEnter="QuickMatchButton_MouseEnter" />
+                <Button Content="Multiplayer" Margin="12,0,0,-400" Name="MultiplayerButton" Style="{DynamicResource buttonStyle}" Click="MultiplayerButton_Click"/>
+                <Button Content="Back" Margin="12,0,0,-510" Name="newGameBackButton" Style="{DynamicResource buttonStyle}" Click="newGameBackButton_Click" />
+            </Canvas>
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="1.25" ScaleY="1.25" />
+            </Border.RenderTransform>
+        </Border>
+
+        <Image Name="loginBackground" Margin="-1255,-840,0,0" Height="60" Width="190" Source="/Locomotion;component/Media/Graphics/profileCorner.png" MouseEnter="loginBackground_MouseEnter" MouseLeave="loginBackground_MouseLeave" MouseDown="loginBackground_MouseDown">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+            </Image.RenderTransform>
+        </Image>
+        <Label Name="loginUsername" Width="150" Margin="50,20,0,0"  Foreground="White" Content="Username" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="14" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+        <Image Margin="1310,-800,0,0" Height="60" Name="MusicButton" Stretch="Fill" Width="60" Source="/Locomotion;component/Media/Graphics/music.png" MouseDown="MusicButton_MouseDown" MouseEnter="MusicButton_MouseEnter" MouseLeave="MusicButton_MouseLeave" />
+
+        <Grid Visibility="Hidden" Opacity="0" Name="networkGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#5A000000">
+            <Image Canvas.Left="452" Canvas.Top="278" Height="302" Stretch="Fill" Width="533" Source="/Locomotion;component/Media/Graphics/messageBg.png" />
+            <Canvas Name="mpPeerCanvas" Opacity="1" Visibility="Hidden">
+                <ListBox Name="multiplayerList" Canvas.Left="590" Canvas.Top="330" Height="180" Width="280" Foreground="White" FontFamily="../Media/Fonts/#Keep Calm Medium" BorderThickness="5" HorizontalContentAlignment="Center" FontSize="14">
+                    <ListBox.Background>
+                        <SolidColorBrush />
+                    </ListBox.Background>
+                </ListBox>
+
+                <Button Content="Connect" Canvas.Left="560" Canvas.Top="520" Name="JoinButton" Height="40" Width="105" Click="JoinButton_Click" Style="{DynamicResource buttonStyle}" FontSize="18"/>
+                <Button Content="Refresh" Canvas.Left="675" Canvas.Top="520" Name="RefreshButton" Height="40" Width="105" Click="RefreshButton_Click" Style="{DynamicResource buttonStyle}" FontSize="18"/>
+                <Button Content="Back" Canvas.Left="790" Canvas.Top="520" Name="MultiplayerCanvasBackButton" Height="40" Width="105" Click="MultiplayerCanvasBackButton_Click" Style="{DynamicResource buttonStyle}" FontSize="18"/>
+            </Canvas>
+            <Grid Name="mpChallengeCanvas" Opacity="0" Visibility="Hidden">
+                <Border BorderBrush="{x:Null}" Height="150" Width="300" Margin="20,-30,0,0" >
+                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Name="mpMessageLabel" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" TextWrapping="Wrap" FontSize="22" Foreground="White">
+
+                    </TextBlock>
+                </Border>
+                <!--<Label Name="mpMessageLabel2" Content="Do you wish to accept?" Canvas.Left="602" Canvas.Top="410" FontSize="20" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" /> -->
+                <Button Name="challengeAcceptButton" Content="Accept" Margin="-120,180,0,0" Height="40" Width="120" Click="challengeAcceptButton_Click" Style="{DynamicResource buttonStyle}" FontSize="22" />
+                <Button Name="challengeRejectButton" Content="Reject" Margin="160,180,0,0" Height="40" Width="120" Click="challengeRejectButton_Click" Style="{DynamicResource buttonStyle}" FontSize="22" />
+            </Grid>
+            <Grid Name="mpRejectCanvas" Opacity="0" Visibility="Hidden">
+                <Border BorderBrush="{x:Null}" Height="150" Width="300" Margin="20,-30,0,0">
+                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" Name="mpRejectLabel" TextWrapping="Wrap" FontSize="22" Foreground="White">
+
+                    </TextBlock>
+                </Border>
+                <Button Name="rejectBackButton" Margin="10,180,0,0" Content="Back" Height="40" Width="100" Click="rejectBackButton_Click" Style="{DynamicResource buttonStyle}" FontSize="24" />
+            </Grid>
+        </Grid>    
+        
+        
+        <Canvas Visibility="Hidden" Opacity="0" Name="localPlayerMessageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D2000000">
+            <Image Canvas.Left="452" Canvas.Top="278" Height="302" Stretch="Fill" Width="533" Source="/Locomotion;component/Media/Graphics/messageBg.png" />
+            <Button Name="localPlayersOkButton" Canvas.Left="598" Canvas.Top="499" Content="OK" Height="39" Width="101" Click="localPlayerOkButton_Click" Style="{DynamicResource buttonStyle}" />
+            <Label Canvas.Left="603" Canvas.Top="322" Content="Please enter your names " Height="49" Name="localPlayerLabel" Width="268" Foreground="White" FontSize="22" />
+            <TextBox Canvas.Left="714" Canvas.Top="377" Height="50" Text="Player1" Name="player1Input" Width="167" TextAlignment="Center" FontSize="20" BorderThickness="5" BorderBrush="#FF084265" MaxLength="14" />
+            <Button Canvas.Left="732" Canvas.Top="499" Content="Cancel" Height="39" Name="localPlayersCancelButton" Width="101" Click="localPlayersCancelButton_Click" Style="{DynamicResource buttonStyle}" />
+            <TextBox BorderBrush="#FF084265" BorderThickness="5" Text="Player2" Canvas.Left="714" Canvas.Top="433" FontSize="20" Height="50" Name="player2Input" TextAlignment="Center" Width="167" MaxLength="14" />
+            <Label Canvas.Left="598" Canvas.Top="377" Content="Player 1:" FontSize="22" Foreground="White" Name="player1Label" />
+            <Label Canvas.Left="598" Canvas.Top="434" Content="Player 2:" FontSize="22" Foreground="White" Name="player2Label" />
+        </Canvas>
+
+        <Grid Visibility="Hidden" Opacity="0" Name="quickGameGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D2000000">
+            <Image Margin="-70,-50,0,0" Height="302" Stretch="Fill" Width="533" Source="/Locomotion;component/Media/Graphics/messageBg.png" >
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                </Image.RenderTransform>
+            </Image>
+            <!-- <Button Name="qgRegularButton" Style="{DynamicResource buttonStyle}" Height="60" Margin="-200,-100,0,0" Content="Regular" Padding="0" BorderBrush="{x:Null}" Click="qgRegularButton_Click"></Button>
+            <Button Name="qgTimeAttackButton" Style="{DynamicResource buttonStyle}" Height="60" Margin="-200, 30,0,0" Content="Time Attack" Click="qgTimeAttackButton_Click" MouseEnter="qgTimeAttackButton_MouseEnter"></Button> -->
+            <Button Name="qgStartButton" Style="{DynamicResource buttonStyle}" Margin="-100, 210,0,0" Content="Start" Width="150" Height="50" Click="qgStartButton_Click" />
+            <Button Name="qgBackButton" Style="{DynamicResource buttonStyle}" Margin="220, 210,0,0" Content="Back" Click="qgBackButton_Click" Width="150" Height="50"/>
+            <Label Content="Difficulty:" FontSize="28" Foreground="White" Margin="-135,-190,0,0" Height="50" Width="150" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontStyle="Normal" />
+            <Label Content="Easy" Name="DiffOptionsLabel" FontSize="24" Foreground="White" Margin="220,-190,0,0" Height="40" Width="120" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FlowDirection="LeftToRight" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Image Height="30" Name="DiffLeftArrow" Stretch="Fill" Margin="65,-190,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/LeftArrowRed.png" MouseDown="DiffLeftArrow_MouseDown" />
+            <Image Height="30" Name="DiffRightArrow" Stretch="Fill" Margin="385,-190,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/RightArrowRed.png" MouseDown="DiffRightArrow_MouseDown" />
+            <Label Content="Move:" FontSize="28" Foreground="White" Margin="-90,-100,0,0" Height="50" Width="100" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontStyle="Normal" />
+            <Label Content="First" Name="MoveOptionsLabel" FontSize="24" Foreground="White" Margin="220,-100,0,0" Height="40" Width="120" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FlowDirection="LeftToRight" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Image Height="30" Name="MoveLeftArrow" Stretch="Fill" Margin="65,-100,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/LeftArrowRed.png" MouseDown="MoveLeftArrow_MouseDown" />
+            <Image Height="30" Name="MoveRightArrow" Stretch="Fill" Margin="385,-100,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/RightArrowRed.png" MouseDown="MoveRightArrow_MouseDown" />
+            <Label Content="Map:" FontSize="28" Foreground="White" Margin="-70,-10,0,0" Height="50" Width="80" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontStyle="Normal" />
+            <Label Content="Random" Name="MapOptionsLabel" FontSize="24" Foreground="White" Margin="220,-10,0,0" Height="40" Width="120" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FlowDirection="LeftToRight" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Image Height="30" Name="MapLeftArrow" Stretch="Fill" Margin="65,-10,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/LeftArrowRed.png" MouseDown="MapLeftArrow_MouseDown" />
+            <Image Height="30" Name="MapRightArrow" Stretch="Fill" Margin="385,-10,0,0" Width="40" Source="/Locomotion;component/Media/Graphics/RightArrowRed.png" MouseDown="MapRightArrow_MouseDown" />
+            <Label Content="Time Attack:" FontSize="28" Foreground="White" Margin="-166,80,0,0" Height="50" Width="220" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontStyle="Normal" />
+            <Slider Height="30"  Name="taSlider" Margin="220,90,0,0" Maximum="6" TickFrequency="2" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Width="200" />
+            <Label Content="Off" Height="30" Width="40" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" Margin="35,130,0,0"  />
+            <Label Content="1 min" Height="30" Width="50" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" Margin="160,130,0,0"  />
+            <Label Content="2 min" Height="30" Width="50" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" Margin="295,130,0,0"  />
+            <Label Content="4 min" Height="30" Width="50" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" Margin="420,130,0,0"  />
+            <!--<ItemsControl Name="qgRadioButtons" Margin="240,70,0,0" Height="120" Width="140">
+                <RadioButton Name="easyRadioButton" Content="Easy" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="18" Foreground="White" IsChecked="True" />
+                <RadioButton Name="mediumRadioButton" Content="Medium" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="18" Foreground="White" />
+                <RadioButton Name="hardRadioButton" Content="Hard" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="18" Foreground="White" />
+            </ItemsControl>-->
+        </Grid>
+
+        <!--<Grid Name="loginInfoGrid"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Width="280">
+            <Label Name="loginUsername" />
+            <Grid.Background>
+                <ImageBrush ImageSource="/Locomotion;component/Media/Graphics/loginBG.png" />
+            </Grid.Background>
+        </Grid>-->
+        <Image Name="Logo" Margin="328,50,310,673" Stretch="Fill" Source="/Locomotion;component/Media/Graphics/locoTitle.png" />
+
+        <Grid Name="HelpGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#8A000000" Visibility="Hidden" KeyDown="HelpGrid_KeyDown" MouseDown="HelpGrid_MouseDown">
+            <Image Name="HelpImage1" Source="/Locomotion;component/Media/Help/instructions_mainMenu1.png" Visibility="Hidden" />
+            <Image Name="HelpImage2" Source="/Locomotion;component/Media/Help/instructions_mainMenu2.png" Visibility="Hidden"  />
+            <Image Name="HelpImage3" Source="/Locomotion;component/Media/Help/instructions_mainMenu3.png" Visibility="Hidden"  />
+            <Image Name="HelpImage4" Source="/Locomotion;component/Media/Help/instructions_network.png" Visibility="Hidden"  />
+            <Image Name="HelpImage5" Source="/Locomotion;component/Media/Help/instructions_quickGame.png" Visibility="Hidden"  />
+        </Grid>
+
+        <Image Margin="1180,-800,0,0" Height="60" Name="HelpButton" Stretch="Fill" Width="60" Source="/Locomotion;component/Media/Graphics/helpButton.png" MouseEnter="HelpButton_MouseEnter" MouseLeave="HelpButton_MouseLeave" MouseDown="HelpButton_MouseDown" />
+
+        <Grid Name="profileGrid" Visibility="Hidden" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D2000000">
+            <Grid Name="NewTicket_Grid" Height="470" Width="900" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                <Image Name="NewTicket" Height="400" Width="800" HorizontalAlignment="Right" VerticalAlignment="Top" Source="/Locomotion;component/Media/Graphics/ticket.png" />
+                <Button Content="OK" HorizontalAlignment="Left" Margin="529,309,0,0" Name="CreateProfile_Button" VerticalAlignment="Top" Width="160" Click="CreateProfile_Button_Click" Style="{DynamicResource buttonStyle}" />
+                <TextBox HorizontalAlignment="Left" Margin="529,145,0,0" Name="NewProfile_TextBox" VerticalAlignment="Top" Width="250" TextChanged="NewProfile_TextBox_TextChanged" MaxLength="15" FontSize="16" TextAlignment="Center" />
+                <Image Height="250" HorizontalAlignment="Left" Margin="213,70,0,0" Name="SelectedProfilePic" Stretch="Fill" VerticalAlignment="Top" Width="250" Source="/Locomotion;component/Media/Graphics/char1corner.png" />
+                <Button Content="Cancel" HorizontalAlignment="Left" Margin="701,310,0,0" Name="cancelCreateNew_Button" VerticalAlignment="Top" Width="160" Click="cancelCreateNew_Button_Click" Style="{DynamicResource buttonStyle}" />
+                <Label Content="" Height="28" HorizontalAlignment="Left" Margin="529,184,0,0" Name="ProfileEditError_Label" VerticalAlignment="Top" Foreground="DarkRed" />
+                <Image Height="51" HorizontalAlignment="Left" Margin="195,168,0,0" Name="LeftArrow" Stretch="Fill" VerticalAlignment="Top" Width="31" Source="/Locomotion;component/Media/Graphics/LeftArrow.png" MouseDown="LeftArrow_MouseDown" />
+                <Image Height="51" HorizontalAlignment="Left" Margin="452,168,0,0" Name="RightArrow" Stretch="Fill" VerticalAlignment="Top" Width="31" Source="/Locomotion;component/Media/Graphics/RightArrow.png" MouseDown="RightArrow_MouseDown" />
+            </Grid>
+            <Grid Name="ChooseTicket_Grid" Height="470" Width="900" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Image Name="ChooseTicket" Height="400" Width="800" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="/Locomotion;component/Media/Graphics/ticket.png" />
+                <Image Name="ProfilePic" Height="250" HorizontalAlignment="Left" Margin="110,145,0,0" Stretch="Fill" VerticalAlignment="Top" Width="250" Source="/Locomotion;component/Media/Graphics/char1corner.png" />
+                <ComboBox HorizontalAlignment="Left" Margin="130,400,0,0" Width="220" Name="profile_Combobox" VerticalAlignment="Top" FontSize="18" SelectionChanged="profile_Combobox_SelectionChanged" SelectedIndex="0" HorizontalContentAlignment="Center" />
+                <Label Content="Lifetime Wins:" Height="Auto" HorizontalAlignment="Left" Margin="450,202,0,0" Name="lifetimeWins" VerticalAlignment="Top" FontSize="26" Width="Auto"/>
+                <Label Content="" HorizontalAlignment="Left" Margin="636,202,0,0" Name="lifetimeWinCount" VerticalAlignment="Top" FontSize="26" />
+                <Label Content="Campaign Progress:" Height="Auto" HorizontalAlignment="Left" Margin="450,241,0,0" Name="campaignProgress" VerticalAlignment="Top" FontSize="26" />
+                <Image Height="60" HorizontalAlignment="Left" Margin="457,288,0,0" Name="campaignStars" Stretch="Fill" VerticalAlignment="Top" Width="200" Source="/Locomotion;component/Media/Graphics/star0.png" />
+                <Button Content="OK" Width="160" HorizontalAlignment="Right" Margin="0,0,311,35" Name="startButton" VerticalAlignment="Bottom" Style="{DynamicResource buttonStyle}" Click="startButton_Click" />
+                <Button Content="Cancel" Width="160" HorizontalAlignment="Right" Margin="0,0,141,35" Name="profileBackButton" VerticalAlignment="Bottom" Style="{DynamicResource buttonStyle}" />
+                <Button Name="addNewProfileButton" Content="New" HorizontalAlignment="Left" Margin="400,150,0,0" VerticalAlignment="Top" Height="40" Width="100" FontSize="18" Style="{DynamicResource buttonStyle}" Click="addNewProfileButton_MouseDown" MouseEnter="addNewProfileButton_MouseEnter" />
+                <Button Name="editCurrent" Content="Edit" HorizontalAlignment="Left" Margin="520,150,0,0" VerticalAlignment="Top" Height="40" Width="100" FontSize="18" Style="{DynamicResource buttonStyle}" Click="editCurrent_MouseDown" MouseEnter="editCurrent_MouseEnter" />
+                <Button Name="deleteCurrent" Content="Delete" HorizontalAlignment="Left" Margin="640,150,0,0" VerticalAlignment="Top" Height="40" Width="100" FontSize="18" Style="{DynamicResource buttonStyle}" Click="deleteCurrent_MouseDown" MouseEnter="deleteCurrent_MouseEnter" />
+            </Grid>
+        </Grid>
+        <Grid Name="CreditCanvas" Height="900" Width="1440" Background="#F0000000" Visibility="Hidden" Opacity="0" MouseDown="CreditCanvas_MouseDown">
+            <Label Name="CreditTitleLabel" IsHitTestVisible="False" Content="Credits" Foreground="White" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="120" HorizontalAlignment="Center" Margin="0,30,0,0"/>
+            <TextBlock Name="CreditText" IsHitTestVisible="False" TextWrapping="Wrap" FontFamily="pack://application:,,,/Media/Fonts/#Keep Calm Medium" FontSize="35" Foreground="White" Margin="200,1000,0,0">
+            <LineBreak />Infinite Loop is... <LineBreak /><LineBreak />
+            Brett Carver - Artifical Intelligence <LineBreak />
+            Gary Torres (leader) - Networking/Graphics<LineBreak />
+            JD Sandoval - Networking/Installation<LineBreak />
+            Daniel Schliffka - Game Core<LineBreak />
+            Brian Vogl - User Interface<LineBreak />
+            <LineBreak />
+            Graphics Provided by Mariana Lopez.<LineBreak />
+            Introduction video: World of Motion.<LineBreak />
+            <LineBreak />
+            Lidgreen Networking Library<LineBreak />
+            WPF Particle Engine<LineBreak />
+            <LineBreak />
+            Audio courtesy of:<LineBreak />
+            The Sims<LineBreak />
+            Paper Mario<LineBreak />
+            </TextBlock>
+        </Grid>
+        <Grid.Triggers>
+
+            <EventTrigger SourceName="NewGameButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="NewGameStoryBoard">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.7" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <!--<DoubleAnimation Storyboard.TargetName="MainMenuTrain" Storyboard.TargetProperty="(Canvas.Left)" From="1450" To="2450"  AccelerationRatio="0.5" DecelerationRatio="0.5" Duration="0:0:2" BeginTime="0:0:1"/>-->
+                            <DoubleAnimation Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.7" BeginTime="0:0:0"/>
+                            <DoubleAnimation Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7" BeginTime="00:00:0.7"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="profileBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="profileBackStoryBoard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <!--<EventTrigger SourceName="qgRegularButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="qgRegularStoryBoard" Completed="qgRegularStoryBoard_Completed">
+                            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:1.5" />
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>-->
+
+          <!--  <EventTrigger SourceName="qgTimeAttackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="qgTimeAttackStoryBoard" Completed="qgTimeAttackStoryBoard_Completed">
+                            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:1.5" />
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger> -->
+
+            <EventTrigger SourceName="qgBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="qgBackStoryBoard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="QuickMatchButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="quickMatchStoryBoard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="true"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="quickGameGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="CreditsButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="CreditsStoryBoard">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:10.5" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="true"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CreditCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:11" Storyboard.TargetName="CreditCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="CreditCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" BeginTime="0:0:0.5" />
+                            <ThicknessAnimation Storyboard.TargetName="CreditText" Storyboard.TargetProperty="Margin" From="200,1000,0,0" To="200,-1300,0,0" Duration="0:0:10" BeginTime="0:0:1" />
+                            <DoubleAnimation Storyboard.TargetName="CreditCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" BeginTime="0:0:10.5" />
+                            <DoubleAnimation Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:10.5"/>
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To=".3" Duration="00:00:0.7" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" BeginTime="00:00:7" From=".3" To=".5" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="newGameBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="BackStoryBoard">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.7" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <!--<DoubleAnimation Storyboard.TargetName="MainMenuTrain" Storyboard.TargetProperty="(Canvas.Left)" From="2450" To="1450" AccelerationRatio="0.5" DecelerationRatio="0.5" Duration="0:0:2" BeginTime="0:0:1" />-->
+                            <DoubleAnimation Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7" BeginTime="00:00:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.7"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="MultiplayerCanvasBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="mpBackStoryBoard">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="MultiplayerCanvasBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="networkGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" BeginTime="00:00:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="networkGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="multiplayerBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="BackStoryBoard3">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <!--<DoubleAnimation Storyboard.TargetName="MainMenuTrain" Storyboard.TargetProperty="(Canvas.Left)" From="3450" To="2450" AccelerationRatio="0.5" DecelerationRatio="0.5" Duration="0:0:2" BeginTime="0:0:1" />-->
+                            <DoubleAnimation Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" BeginTime="00:00:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="NetworkButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="networkButtonClick">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="MultiplayerCanvasBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="networkGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="networkGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+                            <DoubleAnimation Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="rejectBackButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="RejectBackButtonStoryboard">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="rejectBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="LocalButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="LocalButtonClick">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="localPlayersOkButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="localPlayersOkButtonClick">
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" />
+                            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:1.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger SourceName="localPlayersCancelButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="localPlayersCancelButtonClick">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="true"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="localPlayerMessageBox" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            
+            <EventTrigger SourceName="CampaignButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="CampStoryBoard" Completed="CampStoryBoard_Completed">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="false"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:1.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="MultiplayerButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="MultiplayerStoryBoard" Completed="MultiplayerStoryBoard_Completed">
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <!--<DoubleAnimation Storyboard.TargetName="MainMenuTrain" Storyboard.TargetProperty="(Canvas.Left)" From="2450" To="3450" AccelerationRatio="0.5" DecelerationRatio="0.5" Duration="0:0:2" BeginTime="0:0:1"/>-->
+                            <DoubleAnimation Storyboard.TargetName="newGameButtons" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7" BeginTime="0:0:0"/>
+                            <DoubleAnimation Storyboard.TargetName="multiplayerOptionButtons" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" BeginTime="00:00:0.7" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger SourceName="TutorialButton" RoutedEvent="Button.Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard x:Name="TutorialStoryBoard" Completed="TutorialStoryBoard_Completed">
+                            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+                            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:1.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+        </Grid.Triggers>
+
+    </Grid>
+            <Window.Resources>
+
+        <Storyboard x:Key="ChallengeStoryboard">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpChallengeCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+            <DoubleAnimation Storyboard.TargetName="mpChallengeCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+        </Storyboard>
+
+        <Storyboard x:Key="RejectStoryboard">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="rejectBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+            <DoubleAnimation Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+        </Storyboard>
+
+        <Storyboard x:Key="RejectChallengeStoryboard">
+            <BooleanAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="rejectBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpChallengeCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="mpChallengeCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+        </Storyboard>
+
+        <Storyboard x:Key="RejectBackButtonStoryboard">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="rejectBackButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+            </BooleanAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="mpRejectCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+        </Storyboard>
+
+        <Storyboard x:Key="PeerBackButtonStoryboard">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="mpNicknameCanvas" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="mpPeerCanvas" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="00:00:0.7"/>
+            <DoubleAnimation Storyboard.TargetName="mpNicknameCanvas" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="00:00:0.7" />
+        </Storyboard>
+
+        <Storyboard x:Key="LoadMenuButtons">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.7" Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.7"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveClouds">
+            <ThicknessAnimation Storyboard.TargetName="Cloud1" Storyboard.TargetProperty="Margin" From="-1000,-650,0,0" To="-500,-650,0,0" Duration="0:0:40" DecelerationRatio="0.1" AccelerationRatio="0.1" AutoReverse="True" RepeatBehavior="Forever" />
+            <ThicknessAnimation Storyboard.TargetName="Cloud2" Storyboard.TargetProperty="Margin" From="-200,-450,0,0" To="300,-450,0,0" Duration="0:0:40" DecelerationRatio="0.1" AccelerationRatio="0.1" AutoReverse="True" RepeatBehavior="Forever" />
+            <ThicknessAnimation Storyboard.TargetName="Cloud3" Storyboard.TargetProperty="Margin" From="400,-710,0,0" To="900,-710,0,0" Duration="0:0:40" DecelerationRatio="0.1" AccelerationRatio="0.1" AutoReverse="True" RepeatBehavior="Forever" />
+        </Storyboard>
+        
+        <Storyboard x:Key="InitialLoad">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="profileGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="menuLoaded">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:01" Storyboard.TargetName="mainMenuButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="myMainMenu" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" />
+            <DoubleAnimation Storyboard.TargetName="mainMenuButtons" BeginTime="00:00:01" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:02" />
+        </Storyboard>
+
+        <Storyboard x:Key="loginBorderGlow">
+            <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" RepeatBehavior="Forever" AutoReverse="True" />
+        </Storyboard>
+
+        <Storyboard x:Key="qgFadeout">
+            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From="0.3" To="0.0" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="fadeVolumeDown" >
+            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From="0.5" To="0.2" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="fadeVolumeUp" >
+            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From="0.2" To="0.5" Duration="0:0:1.5" />
+        </Storyboard>
+                
+        <Storyboard x:Key="fadeVolumeOff" >
+            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From="0.3" To="0.0" Duration="0:0:1.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="ExitStoryboard" Completed="Storyboard_Completed_2">
+            <DoubleAnimation Storyboard.TargetName="MainMenuTheme" Storyboard.TargetProperty="Volume" From=".5" To=".0" Duration="0:0:1.5" />
+            <DoubleAnimation Storyboard.TargetName="myMainMenu" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" />
+        </Storyboard>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <!--<BeginStoryboard Storyboard="{StaticResource InitialLoad}"/>
+            <BeginStoryboard Storyboard="{StaticResource MoveTrain}"/>
+            <BeginStoryboard Storyboard="{StaticResource MoveClouds}"/>-->
+            <BeginStoryboard Storyboard="{StaticResource menuLoaded}" />
+        </EventTrigger>
+
+    </Window.Triggers>
+</Window>

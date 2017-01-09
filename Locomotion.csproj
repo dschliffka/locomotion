@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8A9F697-EFA2-4829-9B2A-543268B5C02F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locomotion</RootNamespace>
+    <AssemblyName>Locomotion</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Neon.Core">
+      <HintPath>.\Neon.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>.\WpfAnimatedGif.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="GameCore\Board.cs" />
+    <Compile Include="GameCore\TrainTree.cs" />
+    <Compile Include="GUI\GameOptions.cs" />
+    <Compile Include="GUI\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\LocalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\LocalForm.Designer.cs">
+      <DependentUpon>LocalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\NetworkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\NetworkForm.Designer.cs">
+      <DependentUpon>NetworkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SoundManager.cs" />
+    <Compile Include="GUI\Sprite.cs" />
+    <Compile Include="GUI\Tutorial.xaml.cs">
+      <DependentUpon>Tutorial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Networking\EventArgs\ChallengeEventArgs.cs" />
+    <Compile Include="Networking\EventArgs\ConnectionEventArgs.cs" />
+    <Compile Include="GameCore\Disk.cs" />
+    <Compile Include="GameCore\DiskBoard.cs" />
+    <Compile Include="GameCore\Game.cs" />
+    <Compile Include="GameCore\GamePiece.cs" />
+    <Compile Include="GUI\LoadingScreen.xaml.cs">
+      <DependentUpon>LoadingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Networking\EventArgs\MessageEventArgs.cs" />
+    <Compile Include="Networking\EventArgs\MoveEventArgs.cs" />
+    <Compile Include="Networking\EventArgs\OpponentEventArgs.cs" />
+    <Compile Include="Networking\LocoPeer.cs" />
+    <Compile Include="GUI\MapScreen.xaml.cs">
+      <DependentUpon>MapScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Networking\NetworkManager.cs" />
+    <Compile Include="GameCore\Pair.cs" />
+    <Compile Include="Networking\PeerListener.cs" />
+    <Compile Include="GameCore\Peg.cs" />
+    <Compile Include="GameCore\PegBoard.cs" />
+    <Compile Include="GameCore\PieceMove.cs" />
+    <Compile Include="GameCore\Player.cs" />
+    <Compile Include="Networking\Protocol.cs" />
+    <Compile Include="GUI\SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\IntroScreen.xaml.cs">
+      <DependentUpon>IntroScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AI\TreeNode.cs" />
+    <Page Include="GUI\GameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUI\LoadingScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUI\MapScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Page Include="GUI\IntroScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Tutorial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameCore\ProfileManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="GUI\LocalForm.resx">
+      <DependentUpon>LocalForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\NetworkForm.resx">
+      <DependentUpon>NetworkForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Media\Fonts\AeroviasBrasilNF.ttf" />
+    <Resource Include="Media\Fonts\eraser.ttf" />
+    <Resource Include="Media\Fonts\KeepCalm-Medium.otf" />
+    <Resource Include="Media\Fonts\KeepCalm-Medium.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Graphics\2ndLevelBackground.png" />
+    <Resource Include="Media\Graphics\2ndLevelBoard.png" />
+    <Resource Include="Media\Graphics\infinitelogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Graphics\womanChatBox.png" />
+    <Resource Include="Media\Sprites\roboCactusSprite.png" />
+    <Resource Include="Media\Graphics\profileCorner.png" />
+    <Resource Include="Media\Graphics\profileCornerHover.png" />
+    <Resource Include="Media\Help\instructions_quickGame.png" />
+    <Resource Include="Media\Graphics\dialogBox.png" />
+    <Resource Include="Media\Graphics\dialogBox_reversed.png" />
+    <Resource Include="Media\Graphics\tutorialchatbox.png" />
+    <Resource Include="Media\Graphics\loadingRoboCactus.png" />
+    <Resource Include="Media\Graphics\roboCactusChatBox.png" />
+    <Resource Include="Media\Graphics\roboCactusCircle.png" />
+    <Resource Include="Media\Graphics\boyChatBox.png" />
+    <Resource Include="Media\Graphics\girlChatBox.png" />
+    <Resource Include="Media\Graphics\humanchatbox.png" />
+    <Resource Include="Media\Graphics\robot1ChatBox.png" />
+    <Resource Include="Media\Graphics\robot2ChatBox.png" />
+    <Content Include="Media\Sounds\capture.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\notimetick.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\silence.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\tick1.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\timeout.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\tock2.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\trainhorn.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Media\Sprites\glowSprite.png" />
+    <Resource Include="Media\Sprites\blueRobotSprite.png" />
+    <Resource Include="Media\Sprites\boySprite.png" />
+    <Resource Include="Media\Sprites\womanSprite.png" />
+    <Resource Include="Media\Sprites\girlSprite.png" />
+    <Resource Include="Media\Graphics\arrow.png" />
+    <Resource Include="Media\Graphics\arrowover.png" />
+    <Resource Include="Media\Graphics\campaignMAPFULL.png" />
+    <Resource Include="Media\Graphics\EW.png" />
+    <Resource Include="Media\Graphics\help.png" />
+    <Resource Include="Media\Graphics\SW.png" />
+    <Resource Include="Media\Sprites\robotSprite.png" />
+    <Resource Include="Media\Sprites\humanSprite.png" />
+    <Resource Include="Media\Sprites\whale.png" />
+    <Resource Include="Media\Graphics\track0.png" />
+    <Resource Include="Media\Graphics\track1.png" />
+    <Resource Include="Media\Graphics\track2.png" />
+    <Resource Include="Media\Graphics\track3.png" />
+    <Resource Include="Media\Graphics\track4.png" />
+    <Resource Include="Media\Graphics\ticket.png" />
+    <Resource Include="Media\Graphics\edit.png" />
+    <Resource Include="Media\Graphics\trashcan.png" />
+    <Resource Include="Media\Graphics\add.png" />
+    <Resource Include="Media\Sprites\ripple.png" />
+    <Resource Include="Media\Graphics\LeftArrow.png" />
+    <Resource Include="Media\Graphics\RightArrow.png" />
+    <Resource Include="Media\Graphics\char2circle.png" />
+    <Resource Include="Media\Graphics\char3circle.png" />
+    <Resource Include="Media\Graphics\FlatTrack.png" />
+    <Resource Include="Media\Graphics\MiniTrain.png" />
+    <Resource Include="Media\Graphics\menuButton.png" />
+    <Resource Include="Media\Graphics\music.png" />
+    <Resource Include="Media\Graphics\musicOff.png" />
+    <Resource Include="Media\Graphics\CompleteBoard.png" />
+    <Resource Include="Media\Graphics\menuButtonHover.png" />
+    <Resource Include="Media\Graphics\musicHover.png" />
+    <Resource Include="Media\Graphics\musicOffHover.png" />
+    <Resource Include="Media\Graphics\3rdLevelBackground.png" />
+    <Resource Include="Media\Graphics\3rdLevelBoard.png" />
+    <Resource Include="Media\Graphics\4thLevelBackground.png" />
+    <Resource Include="Media\Graphics\4thLevelBoard.png" />
+    <Resource Include="Media\Graphics\CITY_PIECE.png" />
+    <Resource Include="Media\Graphics\ROBOT_PIECE.png" />
+    <Resource Include="Media\Graphics\frontLayer.png" />
+    <Resource Include="Media\Graphics\mainmenufreeze.png" />
+    <Resource Include="Media\Graphics\mockMenu.png" />
+    <Resource Include="Media\Graphics\mockProfile.png" />
+    <Resource Include="Media\Graphics\mockTicket.png" />
+    <Resource Include="Media\Graphics\NE.png" />
+    <Resource Include="Media\Graphics\NS.png" />
+    <Resource Include="Media\Graphics\NW.png" />
+    <Resource Include="Media\Graphics\SE.png" />
+    <Resource Include="Media\Graphics\Human_Peg.png" />
+    <Resource Include="Media\Graphics\backLayer.png" />
+    <Resource Include="Media\Graphics\4thLevelBackgroundDark.png" />
+    <Resource Include="Media\Graphics\star1empty.png" />
+    <Resource Include="Media\Graphics\star2empty.png" />
+    <Resource Include="Media\Graphics\star3empty.png" />
+    <Resource Include="Media\Graphics\star4empty.png" />
+    <Resource Include="Media\Graphics\star1full.png" />
+    <Resource Include="Media\Graphics\star2full.png" />
+    <Resource Include="Media\Graphics\star3full.png" />
+    <Resource Include="Media\Graphics\star4full.png" />
+    <Resource Include="Media\Graphics\helpButton.png" />
+    <Resource Include="Media\Graphics\helpButtonHover.png" />
+    <Resource Include="Media\Graphics\waterTexture.png" />
+    <Resource Include="Media\Graphics\1stLevelBoard.png" />
+    <Resource Include="Media\Help\instructions_mainMenu1.png" />
+    <Resource Include="Media\Help\instructions_mainMenu2.png" />
+    <Resource Include="Media\Help\instructions_mainMenu3.png" />
+    <Resource Include="Media\Help\instructions_network.png" />
+    <Resource Include="Media\Graphics\LeftArrowRed.png" />
+    <Resource Include="Media\Graphics\RightArrowRed.png" />
+    <Resource Include="Media\Graphics\char4circle.png" />
+    <Resource Include="Media\Graphics\locoTitle.png" />
+    <Resource Include="Media\Graphics\Sample_Peg.png" />
+    <Resource Include="Media\Graphics\subtleWaterTexture.png" />
+    <Resource Include="Media\Graphics\loadingChar1.png" />
+    <Resource Include="Media\Graphics\loadingChar2.png" />
+    <Resource Include="Media\Graphics\loadingChar3.png" />
+    <Resource Include="Media\Graphics\loadingChar4.png" />
+    <Resource Include="Media\Graphics\loadingRobot1.png" />
+    <Resource Include="Media\Graphics\loadingRobot2.png" />
+    <Resource Include="Media\Graphics\idea.png" />
+    <Content Include="Media\Movies\IntroShort.wmv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\boing.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\bottlepop.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\constructionsoundeffects.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\DesertIsland-Soundtrack.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\GamePlayTheme.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\MainMenuTheme.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\MapTheme.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Pop1.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Pop2.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\BossTheme.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\record-scratch-1.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\SnowIsland-Soundtrack.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\squeeze-toy-3.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\Sounds\Tick.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Media\Sprites\clocksprite.png" />
+    <Resource Include="Media\Graphics\think1.png" />
+    <Resource Include="Media\Graphics\think2.png" />
+    <Resource Include="Media\Graphics\think3.png" />
+    <Resource Include="Media\Graphics\blackPeg.png" />
+    <Resource Include="Media\Graphics\blackspot.png" />
+    <Resource Include="Media\Graphics\messageBg.png" />
+    <Resource Include="Media\Graphics\girlcorner.png" />
+    <Resource Include="Media\Graphics\robot3chatbox.png" />
+    <Resource Include="Media\Graphics\robot4chatbox.png" />
+    <Resource Include="Media\Graphics\star0.png" />
+    <Resource Include="Media\Graphics\star1.png" />
+    <Resource Include="Media\Graphics\star2.png" />
+    <Resource Include="Media\Graphics\star3.png" />
+    <Resource Include="Media\Graphics\star4.png" />
+    <Resource Include="Media\Graphics\staticBackground.png" />
+    <Resource Include="Media\Graphics\MainMenuTrain.png" />
+    <Resource Include="Media\Graphics\button_EMERLAND.png" />
+    <Resource Include="Media\Graphics\button_GRAY.png" />
+    <Resource Include="Media\Graphics\button_GREEN.png" />
+    <Resource Include="Media\Graphics\button_LIGHTBLUE.png" />
+    <Resource Include="Media\Graphics\button_RED.png" />
+    <Resource Include="Media\Graphics\button_TURQUOISE.png" />
+    <Resource Include="Media\Graphics\button_WHITE.png" />
+    <Resource Include="Media\Graphics\button_YELLOW.png" />
+    <Resource Include="Media\Graphics\thinksolve.png" />
+    <Resource Include="Media\Graphics\think0.png" />
+    <Resource Include="Media\Graphics\HomeIsland.png" />
+    <Resource Include="Media\Graphics\Landscape.png" />
+    <Resource Include="Media\Graphics\Level2Island.png" />
+    <Resource Include="Media\Graphics\Level3Island.png" />
+    <Resource Include="Media\Graphics\level4Island.png" />
+    <Resource Include="Media\Graphics\Level2IslandLock.png" />
+    <Resource Include="Media\Graphics\Level3IslandLock.png" />
+    <Resource Include="Media\Graphics\level4IslandLock.png" />
+    <Resource Include="Media\Graphics\char1circle.png" />
+    <Resource Include="Media\Graphics\robot1corner.png" />
+    <Resource Include="Media\Graphics\robot2corner.png" />
+    <Resource Include="Media\Graphics\robot3corner.png" />
+    <Resource Include="Media\Graphics\robot4corner.png" />
+    <Resource Include="Media\Graphics\campaignMAP.png" />
+    <Content Include="Media\Help\Movies\IntroShort.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Particle Effects\PlayGround\SandBox\Playground.csproj">
+      <Project>{70FEB780-FDBF-460B-849D-1CA6213E7202}</Project>
+      <Name>Playground</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Graphics\Character1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Graphics\speechbubble.PNG" />
+    <Resource Include="Media\Graphics\Character1Full.png" />
+    <Content Include="Media\Sounds\ButtonPush.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "$(DevEnvDir)..\..\vc\vcvarsall.bat" x86
+"$(DevEnvDir)..\..\vc\bin\EditBin.exe" "$(TargetPath)"  /LARGEADDRESSAWARE</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

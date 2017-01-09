@@ -1,0 +1,36 @@
+﻿<Window x:Class="Locomotion.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="IntroScreen" Height="900" Width="1440" WindowStyle="None" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="Black" Name="IntroScreen" KeyDown="IntroScreen_KeyDown">
+    
+    <Grid Name="contentGrid" MouseDown="contentGrid_MouseDown">
+        <MediaElement HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="introElement" VerticalAlignment="Stretch" Stretch="Uniform" Source="Media/Movies/IntroShort.wmv" Opacity="0" />
+        <Label Content="(Press any key to skip...)" Height="38" Name="SkipLabel" Margin="0,-860,0,0" Foreground="#FFA7A7A7" FontSize="20"/>
+    </Grid>
+
+    <Window.Resources>
+
+        <Storyboard x:Key="Transition" Completed="Storyboard_Completed">
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1" />
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Opacity" From="1" To="1" Duration="0:0:8" BeginTime="0:0:1"/>
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:10"/>
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:1" BeginTime="0:0:11" />
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:3" BeginTime="0:0:08" />
+        </Storyboard>
+        
+        <Storyboard x:Key="FadeOut">
+            <DoubleAnimation Storyboard.TargetName="contentGrid" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1"/>
+            <DoubleAnimation Storyboard.TargetName="introElement" Storyboard.TargetProperty="Volume" From=".5" To="0" Duration="0:0:2" />
+        </Storyboard>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Transition}"/>
+        </EventTrigger>
+
+    </Window.Triggers>
+
+</Window>
